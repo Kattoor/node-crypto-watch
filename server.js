@@ -19,6 +19,9 @@ function getPrice(coin, callback) {
     https.get(baseUrl + coin + '/', res => {
         var buffer;
         res.on('data', chunk => buffer += chunk);
-        res.on('end', () => callback(/id="quote_price"[a-zA-Z-_ ="0-9.<>]*data-usd="([0-9.]*)"/.exec(buffer)[1]));
+        res.on('end', () => {
+            const match = /id="quote_price"[a-zA-Z-_ ="0-9.<>]*data-usd="([0-9.]*)"/.exec(buffer);
+            callback(match && match.length >= 2 ? match[1] : '-1');
+        });
     });
 }
