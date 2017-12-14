@@ -1,7 +1,12 @@
-const http = require('http');
 const https = require('https');
+const fs = require('fs');
 
-const server = http.createServer((req, res) => handle(req, res));
+const options = {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+};
+
+const server = https.createServer(options, (req, res) => handle(req, res));
 server.listen('8080');
 
 function handle(req, res) {
