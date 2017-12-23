@@ -26,7 +26,7 @@ const baseUrl = 'https://coinmarketcap.com/currencies/';
 
 function getPrice(coin, callback) {
     https.get(baseUrl + coin + '/', res => {
-        let buffer;
+        var buffer;
         res.on('data', chunk => buffer += chunk);
         res.on('end', () => {
             const match = /id="quote_price"[a-zA-Z-_ ="0-9.<>]*data-usd="([0-9.]*)"/.exec(buffer);
