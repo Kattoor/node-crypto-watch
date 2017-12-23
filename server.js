@@ -1,12 +1,13 @@
+const http = require('http');
 const https = require('https');
 const fs = require('fs');
 
-const options = {
+/*const options = {
     key: fs.readFileSync('./key.key'),
     cert: fs.readFileSync('./cert.cert')
-};
+};*/
 
-const server = https.createServer(options, (req, res) => handle(req, res));
+const server = http.createServer(/*options,*/ (req, res) => handle(req, res));
 server.listen('8080');
 
 function handle(req, res) {
@@ -15,14 +16,17 @@ function handle(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', '*');
     const url = req.url.slice(1);
-    getPrice(url, price => res.end(price));
+    if (url === '')
+        fs.readFile('./index.html', 'utf8', (error, data) => res.end(data));
+    else
+        getPrice(url, price => res.end(price));
 }
 
 const baseUrl = 'https://coinmarketcap.com/currencies/';
 
 function getPrice(coin, callback) {
     https.get(baseUrl + coin + '/', res => {
-        var buffer;
+        let buffer;
         res.on('data', chunk => buffer += chunk);
         res.on('end', () => {
             const match = /id="quote_price"[a-zA-Z-_ ="0-9.<>]*data-usd="([0-9.]*)"/.exec(buffer);

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kattoor</title>
+    <style>
+        * {
+            font-family: Calibri, monospace;
+        }
+
+        span {
+            font-weight: 800;
+        }
+
+        .expense {
+            color: red;
+        }
+
+        .profit {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    const container = document.getElementById('container');
+
+    const transactions = {
+        ripple: [
+            {amount: 100, price: 0.2460},
+            {amount: 200, price: 0.24445},
+            {amount: 255, price: 0.263176471},
+            {amount: 145, price: 0.298206897}
+        ],
+        xtrabytes: [{amount: 192, price: 0.140999796}],
+        stellar: [{amount: 1147.0325355, price: 0.18138898641}],
+        tron: [{amount: 2305.692, price: 0.04755586}],
+        'enjin-coin': [{amount: 1019.979, price: 0.16876128}],
+        'dynamic-trading-rights': [{amount: 1434, price: 0.01}],
+        neo: [
+            {amount: 1, price: 35.51},
+            {amount: 1, price: 37.44},
+            {amount: 1, price: 32.86},
+        ]
+    };
+
+    const amounts = {
+        ripple: 700,
+        xtrabytes: 192,
+        stellar: 1147.0325355,
+        tron: 2305.692,
+        'enjin-coin': 1019.979,
+        'dynamic-trading-rights': 1434,
+        neo: 3
+    };
+
+    function getCoinInfo(coinNames) {
+        coinNames.forEach(function (coinName) {
+            getPrice(coinName, function (coinName, usd) {
+                const currentWorth = usd * amounts[coinName];
+                const totalCost = transactions[coinName].reduce(function (cumSum, transaction) {
+                    return cumSum + transaction.amount * transaction.price;
+                }, 0);
+                const profit = currentWorth - totalCost;
+                const p = document.createElement('p');
+                p.innerHTML = '<span>' + coinName + '</span> = ' + usd + ' USD<br>' + amounts[coinName] + ' <span>' + coinName + '</span> = <span class="profit">' + currentWorth + ' USD</span><br>Spent <span class="expense">' + totalCost + ' USD</span> buying <span>' + coinName + '</span><br>Profit = <span class="' + (profit > 0 ? 'profit' : 'expense') + '">' + profit + ' USD<span><br>';
+                /*`
+                                1 <span>${coinName}</span> = ${usd} USD<br>
+                                ${amounts[coinName]} <span>${coinName}</span> = <span class="profit">${currentWorth} USD</span><br>
+                                Spent <span class="expense">${totalCost} USD</span> buying <span>${coinName}</span><br>
+                                Profit = <span class="${profit > 0 ? 'profit' : 'expense'}">${profit} USD<span><br>
+                `;*/
+                container.appendChild(p);
+            })
+        });
+    }
+
+    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo']);
+
+    function getPrice(coinName, callback) {
+/*        switch (coinName) {
+            case 'ripple':
+                callback(coinName, 1.19);
+                return;
+            case 'xtrabytes':
+                callback(coinName, 0.294088);
+                return;
+            case 'stellar':
+                callback(coinName, 0.247255);
+                return;
+            case 'tron':
+                callback(coinName, 0.054889);
+                return;
+            case 'enjin-coin':
+                callback(coinName, 0.173413);
+                return;
+            case 'dynamic-trading-rights':
+                callback(coinName, 0.020868);
+                return;
+            case 'neo':
+                callback(coinName, 62.87);
+                return;
+
+        }*/
+        httpGetAsync('http://localhost:8080/' + coinName, function(response) {
+            callback(coinName, response);
+        });
+        /*fetch('https://95.85.19.37:8080/' + coinName).then(function (response) {
+            response.text().then(function (usd) {
+                callback(coinName, usd);
+            })
+        });*/
+    }
+
+    function httpGetAsync(url, callback) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        };
+        xmlHttp.open("GET", url, true);
+        xmlHttp.send(null);
+    }
+</script>
+</body>
+</html>
