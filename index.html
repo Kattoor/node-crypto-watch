@@ -114,7 +114,7 @@
                         return;
 
                 }*/
-        httpGetAsync('http://95.85.19.37:8080/' + coinName, function (response) {
+        httpGetAsync('http://95.85.19.37/' + coinName, function (response) {
             callback(coinName, response);
         });
         /*fetch('https://95.85.19.37:8080/' + coinName).then(function (response) {

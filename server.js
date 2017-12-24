@@ -8,7 +8,7 @@ const fs = require('fs');
 };*/
 
 const server = http.createServer(/*options,*/ (req, res) => handle(req, res));
-server.listen('8080');
+server.listen('80');
 
 function handle(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
