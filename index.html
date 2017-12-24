@@ -55,7 +55,9 @@
         neo: 3
     };
 
+    var obj = [];
     function getCoinInfo(coinNames) {
+        var  processed = 0;
         coinNames.forEach(function (coinName) {
             getPrice(coinName, function (coinName, usd) {
                 const currentWorth = usd * amounts[coinName];
@@ -72,6 +74,15 @@
                                 Profit = <span class="${profit > 0 ? 'profit' : 'expense'}">${profit} USD<span><br>
                 `;*/
                 container.appendChild(p);
+                obj.push(profit);
+                if (++processed === coinNames.length) {
+                    const p = document.createElement('p');
+                    const totalProfit = obj.reduce(function (cumSum, singleProfit) {
+                        return cumSum + singleProfit;
+                    });
+                    p.innerHTML = '<span>Total profit:</span> <span class="' + (totalProfit > 0 ? 'profit' : 'expense') + '">' + totalProfit + '</span>';
+                    container.insertBefore(p, container.firstChild);
+                }
             })
         });
     }
@@ -79,31 +90,31 @@
     getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo']);
 
     function getPrice(coinName, callback) {
-/*        switch (coinName) {
-            case 'ripple':
-                callback(coinName, 1.19);
-                return;
-            case 'xtrabytes':
-                callback(coinName, 0.294088);
-                return;
-            case 'stellar':
-                callback(coinName, 0.247255);
-                return;
-            case 'tron':
-                callback(coinName, 0.054889);
-                return;
-            case 'enjin-coin':
-                callback(coinName, 0.173413);
-                return;
-            case 'dynamic-trading-rights':
-                callback(coinName, 0.020868);
-                return;
-            case 'neo':
-                callback(coinName, 62.87);
-                return;
+        /*        switch (coinName) {
+                    case 'ripple':
+                        callback(coinName, 1.19);
+                        return;
+                    case 'xtrabytes':
+                        callback(coinName, 0.294088);
+                        return;
+                    case 'stellar':
+                        callback(coinName, 0.247255);
+                        return;
+                    case 'tron':
+                        callback(coinName, 0.054889);
+                        return;
+                    case 'enjin-coin':
+                        callback(coinName, 0.173413);
+                        return;
+                    case 'dynamic-trading-rights':
+                        callback(coinName, 0.020868);
+                        return;
+                    case 'neo':
+                        callback(coinName, 62.87);
+                        return;
 
-        }*/
-        httpGetAsync('http://95.85.19.37:8080/' + coinName, function(response) {
+                }*/
+        httpGetAsync('http://95.85.19.37:8080/' + coinName, function (response) {
             callback(coinName, response);
         });
         /*fetch('https://95.85.19.37:8080/' + coinName).then(function (response) {
