@@ -74,13 +74,15 @@
                                 Profit = <span class="${profit > 0 ? 'profit' : 'expense'}">${profit} USD<span><br>
                 `;*/
                 container.appendChild(p);
-                obj.push(profit);
+                obj.push({profit, cost: totalCost, currentWorth});
                 if (++processed === coinNames.length) {
-                    const p = document.createElement('p');
-                    const totalProfit = obj.reduce(function (cumSum, singleProfit) {
-                        return cumSum + singleProfit;
+                    const total = obj.reduce(function (cumSumObj, singleObj) {
+                        return {cost: cumSumObj.cost + singleObj.cost, profit: cumSumObj.profit + singleObj.profit, currentWorth: cumSumObj.currentWorth + singleObj.currentWorth};
                     });
-                    p.innerHTML = '<span>Total profit:</span> <span class="' + (totalProfit > 0 ? 'profit' : 'expense') + '">' + totalProfit + '</span>';
+                    let p = document.createElement('p');
+                    p.innerHTML = '<span>Total worth:</span> <span class="profit">' + total.currentWorth + '</span><br>' +
+                        '<span>Total cost:</span> <span class="expense">' + total.cost + '</span><br>' +
+                        '<span>Total profit:</span> <span class="' + (total.profit > 0 ? 'profit' : 'expense') + '">' + total.profit + '</span>';
                     container.insertBefore(p, container.firstChild);
                 }
             })
