@@ -42,7 +42,8 @@
             {amount: 1, price: 35.51},
             {amount: 1, price: 37.44},
             {amount: 1, price: 32.86},
-        ]
+        ],
+        ethereum: [{amount: 0.4, price: 776.5}]
     };
 
     const amounts = {
@@ -52,7 +53,8 @@
         tron: 2305.692,
         'enjin-coin': 1019.979,
         'dynamic-trading-rights': 1434,
-        neo: 3
+        neo: 3,
+        ethereum: 0.4
     };
 
     var obj = [];
@@ -89,7 +91,7 @@
         });
     }
 
-    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo']);
+    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo', 'ethereum']);
 
     function getPrice(coinName, callback) {
         /*        switch (coinName) {
