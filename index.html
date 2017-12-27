@@ -35,7 +35,10 @@
         ],
         xtrabytes: [{amount: 192, price: 0.140999796}],
         stellar: [{amount: 1147.0325355, price: 0.18138898641}],
-        tron: [{amount: 2305.692, price: 0.04755586}],
+        tron: [
+            {amount: 2305.692, price: 0.04755586},
+            {amount: 4114.881, price: 0.0358644}
+            ],
         'enjin-coin': [{amount: 1019.979, price: 0.16876128}],
         'dynamic-trading-rights': [{amount: 1434, price: 0.01}],
         neo: [
@@ -43,18 +46,18 @@
             {amount: 1, price: 37.44},
             {amount: 1, price: 32.86},
         ],
-        ethereum: [{amount: 0.4, price: 776.5}]
+        verge: [{amount: 885.689, price: 0.18280675}]
     };
 
     const amounts = {
         ripple: 700,
         xtrabytes: 192,
         stellar: 1147.0325355,
-        tron: 2305.692,
+        tron: 6420.573,
         'enjin-coin': 1019.979,
         'dynamic-trading-rights': 1434,
         neo: 3,
-        ethereum: 0.4
+        verge: 885.689
     };
 
     var obj = [];
@@ -91,7 +94,7 @@
         });
     }
 
-    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo', 'ethereum']);
+    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo', 'verge']);
 
     function getPrice(coinName, callback) {
         /*        switch (coinName) {
