@@ -37,8 +37,10 @@
         stellar: [{amount: 1147.0325355, price: 0.18138898641}],
         tron: [
             {amount: 2305.692, price: 0.04755586},
-            {amount: 4114.881, price: 0.0358644}
-            ],
+            {amount: 4114.881, price: 0.0358644},
+            {amount: 1423, price: 0.03055938},
+            {amount: 6000, price: 0.03062684}
+        ],
         'enjin-coin': [{amount: 1019.979, price: 0.16876128}],
         'dynamic-trading-rights': [{amount: 1434, price: 0.01}],
         neo: [
@@ -46,23 +48,35 @@
             {amount: 1, price: 37.44},
             {amount: 1, price: 32.86},
         ],
-        verge: [{amount: 885.689, price: 0.18280675}]
+        verge: [
+            {amount: 860, price: 0.18280675},
+            {amount: -100, price: 0.14941518},
+            {amount: -196, price: 0.14967546},
+            {amount: -294, price: 0.1494441}
+        ],
+        vechain: [
+            {amount: 5, price: 2.30925202},
+            {amount: 13, price: 2.33345358},
+            {amount: 18, price: 2.45097}
+        ]
     };
 
     const amounts = {
         ripple: 700,
         xtrabytes: 192,
         stellar: 1147.0325355,
-        tron: 6420.573,
+        tron: 13843.573,
         'enjin-coin': 1019.979,
         'dynamic-trading-rights': 1434,
         neo: 3,
-        verge: 885.689
+        verge: 885.689,
+        vechain: 36
     };
 
     var obj = [];
+
     function getCoinInfo(coinNames) {
-        var  processed = 0;
+        var processed = 0;
         coinNames.forEach(function (coinName) {
             getPrice(coinName, function (coinName, usd) {
                 const currentWorth = usd * amounts[coinName];
@@ -82,7 +96,11 @@
                 obj.push({profit, cost: totalCost, currentWorth});
                 if (++processed === coinNames.length) {
                     const total = obj.reduce(function (cumSumObj, singleObj) {
-                        return {cost: cumSumObj.cost + singleObj.cost, profit: cumSumObj.profit + singleObj.profit, currentWorth: cumSumObj.currentWorth + singleObj.currentWorth};
+                        return {
+                            cost: cumSumObj.cost + singleObj.cost,
+                            profit: cumSumObj.profit + singleObj.profit,
+                            currentWorth: cumSumObj.currentWorth + singleObj.currentWorth
+                        };
                     });
                     let p = document.createElement('p');
                     p.innerHTML = '<span>Total worth:</span> <span class="profit">' + total.currentWorth + '</span><br>' +
@@ -94,7 +112,7 @@
         });
     }
 
-    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo', 'verge']);
+    getCoinInfo(['ripple', 'xtrabytes', 'stellar', 'tron', 'enjin-coin', 'dynamic-trading-rights', 'neo', 'verge', 'vechain']);
 
     function getPrice(coinName, callback) {
         /*        switch (coinName) {
